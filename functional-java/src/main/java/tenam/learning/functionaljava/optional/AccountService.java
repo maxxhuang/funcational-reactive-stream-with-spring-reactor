@@ -37,9 +37,7 @@ public class AccountService {
 
         User user = optUser.get();
 
-        return Optional.of(
-                new AccountInfo(user.getId(), user.getName(), account.getAccountNumber(), account.getBalance())
-        );
+        return Optional.of(AccountInfo.create(user, account));
 
     }
 }

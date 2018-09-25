@@ -2,6 +2,12 @@ package tenam.learning.functionaljava.model;
 
 public class AccountInfo {
 
+    public static AccountInfo create(User user, Account account) {
+        return new AccountInfo(user.getId(), user.getName(),
+                account.getAccountNumber(), account.getBalance());
+    }
+
+
     private String userId;
     private String userName;
     private String accountNumber;
