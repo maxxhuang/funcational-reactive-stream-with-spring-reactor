@@ -3,6 +3,7 @@ package tenam.learning.functionaljava.future;
 import tenam.learning.functionaljava.model.AccountInfo;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class FunctionalAccountService {
@@ -18,13 +19,10 @@ public class FunctionalAccountService {
     }
 
 
-    public List<AccountInfo> getAccountInfo(String accountNumber) {
-        return this.accountRepository.get(accountNumber).stream().flatMap(account ->
-                this.userRepository.get(account.getUserId()).stream().map(user ->
-                        new AccountInfo(
-                                user.getId(), user.getName(),
-                                account.getAccountNumber(), account.getBalance())))
-                .collect(Collectors.toList());
+    public CompletableFuture<AccountInfo> getAccountInfo(String accountNumber) {
+        return this.accountRepository.get(accountNumber).thenCompose(account ->
+                this.userRepository.get(account.getUserId()).thenApply(user ->
+                        AccountInfo.create(user, account)));
 
     }
 }

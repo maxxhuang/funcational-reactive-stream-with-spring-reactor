@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class RepositoryBase {
+public class BaseRepository {
 
     public static ExecutorService defaultExecutorService() {
         return Executors.newCachedThreadPool(
@@ -21,7 +21,7 @@ public class RepositoryBase {
     protected ExecutorService executorService;
 
 
-    public RepositoryBase(ExecutorService executorService) {
+    public BaseRepository(ExecutorService executorService) {
         this.executorService = Objects.requireNonNull(executorService);
     }
 

@@ -6,6 +6,8 @@ import tenam.learning.functionaljava.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class AccountService {
 
@@ -20,16 +22,35 @@ public class AccountService {
     }
 
 
-    public List<AccountInfo> getAccountInfo(String accountNumber) {
+    public CompletableFuture<AccountInfo> getAccountInfo(String accountNumber) {
 
-        List<AccountInfo> infos = new ArrayList<>();
+        CompletableFuture<AccountInfo> result = new CompletableFuture<>();
 
-        for (Account account : this.accountRepository.get(accountNumber)) {
-            for (User user : this.userRepository.get(account.getUserId())) {
-                infos.add(AccountInfo.create(user, account));
+        try {
+            CompletableFuture<Account> accountFuture = this.accountRepository.get(accountNumber);
+
+            Account account = accountFuture.get();
+
+            if (account == null) {
+                result.complete(null);
             }
+
+            CompletableFuture<User> userFuture = this.userRepository.get(account.getUserId());
+
+            User user = userFuture.get();
+
+            if (user == null) {
+                result.complete(null);
+            } else {
+                result.complete(AccountInfo.create(user, account));
+            }
+
+        } catch (InterruptedException e) {
+            result.completeExceptionally(e);
+        } catch (ExecutionException e) {
+            result.completeExceptionally(e);
         }
 
-        return infos;
+        return result;
     }
 }

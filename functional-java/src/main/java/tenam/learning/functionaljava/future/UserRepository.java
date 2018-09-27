@@ -5,7 +5,7 @@ import tenam.learning.functionaljava.model.User;
 
 import java.util.concurrent.CompletableFuture;
 
-public class UserRepository extends RepositoryBase {
+public class UserRepository extends BaseRepository {
 
     public UserRepository() {
         super(defaultExecutorService());
