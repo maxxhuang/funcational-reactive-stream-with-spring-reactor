@@ -1,10 +1,8 @@
 package tenam.learning.functionaljava.future;
 
-import tenam.learning.functionaljava.model.AccountInfo;
+import tenam.learning.imaginarymodel.AccountInfo;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class FunctionalAccountService {
 

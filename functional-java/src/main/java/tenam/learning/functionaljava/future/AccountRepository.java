@@ -1,11 +1,10 @@
 package tenam.learning.functionaljava.future;
 
-import tenam.learning.functionaljava.model.Account;
-import tenam.learning.functionaljava.model.FakeData;
+import tenam.learning.imaginarymodel.Account;
+import tenam.learning.imaginarymodel.FakeData;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
 
 public class AccountRepository extends BaseRepository {
 

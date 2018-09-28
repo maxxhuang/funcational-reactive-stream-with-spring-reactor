@@ -1,8 +1,10 @@
-package tenam.learning.functionaljava.optional;
+package tenam.learning.functionalreactivestream.application;
 
+import tenam.learning.functionalreactivestream.Flowie;
 import tenam.learning.imaginarymodel.AccountInfo;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FunctionalAccountService {
 
@@ -17,11 +19,12 @@ public class FunctionalAccountService {
     }
 
 
-    public Optional<AccountInfo> getAccountInfo(String accountNumber) {
+    public Flowie<AccountInfo> getAccountInfo(String accountNumber) {
         return this.accountRepository.get(accountNumber).flatMap(account ->
                 this.userRepository.get(account.getUserId()).map(user ->
                         new AccountInfo(
                                 user.getId(), user.getName(),
                                 account.getAccountNumber(), account.getBalance())));
+
     }
 }

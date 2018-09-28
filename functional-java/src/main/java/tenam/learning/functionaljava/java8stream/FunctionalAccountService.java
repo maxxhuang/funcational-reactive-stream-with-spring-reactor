@@ -1,6 +1,6 @@
 package tenam.learning.functionaljava.java8stream;
 
-import tenam.learning.functionaljava.model.AccountInfo;
+import tenam.learning.imaginarymodel.AccountInfo;
 
 import java.util.List;
 import java.util.stream.Collectors;

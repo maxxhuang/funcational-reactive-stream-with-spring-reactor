@@ -1,4 +1,4 @@
-package tenam.learning.functionaljava.model;
+package tenam.learning.imaginarymodel;
 
 public class User {
 

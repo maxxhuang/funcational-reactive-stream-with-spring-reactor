@@ -1,7 +1,7 @@
 package tenam.learning.functionaljava.optional;
 
-import tenam.learning.functionaljava.model.Account;
-import tenam.learning.functionaljava.model.FakeData;
+import tenam.learning.imaginarymodel.Account;
+import tenam.learning.imaginarymodel.FakeData;
 
 import java.util.Optional;
 

@@ -1,11 +1,9 @@
 package tenam.learning.functionaljava.future;
 
-import tenam.learning.functionaljava.model.Account;
-import tenam.learning.functionaljava.model.AccountInfo;
-import tenam.learning.functionaljava.model.User;
+import tenam.learning.imaginarymodel.Account;
+import tenam.learning.imaginarymodel.AccountInfo;
+import tenam.learning.imaginarymodel.User;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
