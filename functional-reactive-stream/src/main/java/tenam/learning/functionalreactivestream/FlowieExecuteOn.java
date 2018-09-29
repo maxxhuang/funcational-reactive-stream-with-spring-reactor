@@ -44,6 +44,7 @@ public class FlowieExecuteOn<T> extends Flowie<T> {
 
         @Override
         public void onSubscribe(Subscription s) {
+            this.upstreamSubscription = s;
             this.actualSubscriber.onSubscribe(this);
         }
 

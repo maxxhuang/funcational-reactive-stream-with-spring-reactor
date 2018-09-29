@@ -1,20 +1,24 @@
 package sandbox;
 
-import com.google.common.collect.Range;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import tenam.learning.functionalreactivestream.Flowie;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Main {
     public static void main(String[] args) {
-        subscriberExample();
-        mapExample();
-        flatMapExample();
+//        subscriberExample();
+//        mapExample();
+//        flatMapExample();
+        executeOnExample();
     }
 
     static void subscriberExample() {
@@ -94,16 +98,52 @@ public class Main {
     }
 
     static void executeOnExample() {
-        Executors.newFixedThreadPool(2, new ThreadFactory() {
-            @Override
-            public Thread newThread(Runnable r) {
-                Thread t = new Thread(r);
-                t.setName("flowie-subscriber-handling");
-                return t;
-            }
-        });
 
-        Flowie.fromIterable(Collections.nCopies(10000000, new Object()));
+        ExecutorService executor = new ThreadPoolExecutor(2, 2,
+                0L, TimeUnit.MILLISECONDS,
+                new ArrayBlockingQueue<>(1000),
+                new ThreadFactoryBuilder()
+                        .setNameFormat("subscriber-handling-%d")
+                        .build());
 
+        Flowie.fromIterable(Collections.nCopies(10000000, new Object()))
+                .executeOn(executor)
+                .subscribe(new Subscriber<Object>() {
+
+                    private AtomicLong counter = new AtomicLong(0L);
+
+                    private Subscription subscription;
+
+
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        this.subscription = s;
+                        s.request(10);
+                        out("onSubscribe");
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+                        out("onNext: " + this.counter.incrementAndGet());
+                        this.subscription.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        out("onError");
+                        t.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        out("onComplete");
+                    }
+                });
+
+    }
+
+    static void out(Object msg) {
+        System.out.println(String.format("[%s] %s",
+                Thread.currentThread().getName(), msg));
     }
 }
