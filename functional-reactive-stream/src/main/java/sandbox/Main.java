@@ -7,10 +7,7 @@ import tenam.learning.functionalreactivestream.Flowie;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Main {
@@ -18,7 +15,27 @@ public class Main {
 //        subscriberExample();
 //        mapExample();
 //        flatMapExample();
-        executeOnExample();
+//        executeOnExample();
+        futureTest();
+    }
+
+    static void futureTest() {
+        ExecutorService es1 = Executors.newFixedThreadPool(2,
+                new ThreadFactoryBuilder().setNameFormat("supply-%d").build());
+
+        ExecutorService es2 = Executors.newFixedThreadPool(2,
+                new ThreadFactoryBuilder().setNameFormat("apply-compose-%d").build());
+
+        CompletableFuture.supplyAsync(() -> {
+            for (int i = 0; i < 10; ++i);
+            out("genearte abc");
+            return "abc";
+            }, es1)
+                .thenApplyAsync(s -> {
+                    out("thenApply(): " + s);
+                    return s;
+
+                }, es2);
     }
 
     static void subscriberExample() {

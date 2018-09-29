@@ -21,10 +21,7 @@ public class FunctionalAccountService {
     public List<AccountInfo> getAccountInfo(String accountNumber) {
         return this.accountRepository.get(accountNumber).stream().flatMap(account ->
                 this.userRepository.get(account.getUserId()).stream().map(user ->
-                        new AccountInfo(
-                                user.getId(), user.getName(),
-                                account.getAccountNumber(), account.getBalance())))
+                        AccountInfo.create(user, account)))
                 .collect(Collectors.toList());
-
     }
 }
