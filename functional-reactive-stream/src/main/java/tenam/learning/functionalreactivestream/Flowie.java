@@ -16,7 +16,7 @@ abstract public class Flowie<T> implements Publisher<T> {
     }
 
     public <R> Flowie<R> flatMap(Function<? super T, ? extends Publisher<? extends R>> mapper) {
-        return new FlowieSynchronousNonThreadSafeFlatMap<T, R>(this, mapper);
+        return new FlowieNonCompliantSynchronousFlatMap<T, R>(this, mapper);
     }
 
     public Flowie<T> executeOn(ExecutorService executor) {

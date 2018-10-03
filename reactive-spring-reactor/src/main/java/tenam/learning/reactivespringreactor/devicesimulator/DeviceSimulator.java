@@ -34,8 +34,6 @@ public class DeviceSimulator implements ApplicationRunner {
 
     private UrlBuilder urlBuilder;
 
-    private MeterRegistry meterRegistry;
-
     private WebClient webClient;
 
     private ValueGenerator<String> macGenerator = new MacGenerator("AA", "BB");

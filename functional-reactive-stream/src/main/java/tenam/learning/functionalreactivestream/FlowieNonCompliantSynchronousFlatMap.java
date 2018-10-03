@@ -7,14 +7,24 @@ import org.reactivestreams.Subscription;
 import java.util.*;
 import java.util.function.Function;
 
-public class FlowieSynchronousNonThreadSafeFlatMap<T, R> extends Flowie<R> {
+/**
+ * This implementation DOES NOT comply with Reactive Streams. It does not take care of
+ * the situation where elements from sub-streams emitted asynchronously.
+ *
+ * The compliant implementation is complicated and usually needs one or more queues
+ * to store un-consumed elements emitted from sub-streams.
+ *
+ * This non-compliant implementation only serves the purpose of demonstrating the
+ * advantage of making reactive streams functional.
+ */
+public class FlowieNonCompliantSynchronousFlatMap<T, R> extends Flowie<R> {
 
     private Publisher<T> source;
 
     private Function<? super T, ? extends Publisher<? extends R>> mapper;
 
 
-    public FlowieSynchronousNonThreadSafeFlatMap(Publisher<T> source, Function<? super T, ? extends Publisher<? extends R>> mapper) {
+    public FlowieNonCompliantSynchronousFlatMap(Publisher<T> source, Function<? super T, ? extends Publisher<? extends R>> mapper) {
         this.source = source;
         this.mapper = mapper;
     }

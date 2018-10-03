@@ -1,10 +1,7 @@
-package tenam.learning.functionalreactivestream.application;
+package tenam.learning.reactivespringreactor.bankingservice;
 
-import tenam.learning.functionalreactivestream.Flowie;
+import reactor.core.publisher.Flux;
 import tenam.learning.imaginarymodel.AccountInfo;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class FunctionalAccountService {
 
@@ -19,7 +16,7 @@ public class FunctionalAccountService {
     }
 
 
-    public Flowie<AccountInfo> getAccountInfo(String accountNumber) {
+    public Flux<AccountInfo> getAccountInfo(String accountNumber) {
         return this.accountRepository.get(accountNumber).flatMap(account ->
                 this.userRepository.get(account.getUserId()).map(user ->
                         new AccountInfo(
